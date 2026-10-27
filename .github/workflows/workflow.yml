@@ -6,16 +6,16 @@ on:
   workflow_dispatch:
     inputs:
       build_mode:
-        description: Build all products or only changed products and their dependents
+        description: 'Build all products or only changed products and their dependents'
         type: choice
         options:
           - full
           - changed
-        default: full
+        default: 'full'
       base_ref:
-        description: Git ref (branch, tag or SHA, e.g. HEAD~3) to compare against in changed mode
+        description: 'Git ref (branch, tag or SHA, e.g. HEAD~3) to compare against in changed mode'
         type: string
-        default: master
+        default: 'main'
 
 permissions:
   contents: read
@@ -57,7 +57,7 @@ jobs:
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             echo "mode=${BUILD_MODE:-full}" >> "$GITHUB_OUTPUT"
-            echo "base=${BASE_REF:-master}" >> "$GITHUB_OUTPUT"
+            echo "base=${BASE_REF:-main}" >> "$GITHUB_OUTPUT"
           elif [[ "$EVENT_NAME" == "pull_request" ]]; then
             echo "mode=changed" >> "$GITHUB_OUTPUT"
             echo "base=$PR_BASE_SHA" >> "$GITHUB_OUTPUT"
@@ -115,10 +115,10 @@ jobs:
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: "17"
-          cache: maven
-          cache-dependency-path: pom.xml
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+          cache-dependency-path: 'pom.xml'
 
       - name: Build selected reactor projects
         if: needs.plan.outputs.build_mode == 'changed'
