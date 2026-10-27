@@ -72,15 +72,15 @@ jobs:
           BUILD_MODE: ${{ steps.scenario.outputs.mode }}
           BASE_REF: ${{ steps.scenario.outputs.base }}
         run: |
-          python3 scripts/build_pipeline.py \
-            --mode "$BUILD_MODE" \
-            --base "$BASE_REF"
+         python3 build_pipeline.py 
+            --mode "$BUILD_MODE" 
+           --base "$BASE_REF"
 
       - name: Render dependency report
         run: |
-          python3 scripts/render_summary.py \
-            --html build-reports/dependency-report.html \
-            --mermaid-dir build-reports
+          python3 render_summary.py \
+              --html build-reports/dependency-report.html \
+             --mermaid-dir build-reports
 
       - name: Upload dependency report
         id: report
@@ -99,9 +99,9 @@ jobs:
         env:
           ARTIFACT_URL: ${{ steps.report.outputs.artifact-url }}
         run: |
-          python3 scripts/render_summary.py \
+          python3 render_summary.py \
             --summary "$GITHUB_STEP_SUMMARY" \
-            --artifact-url "$ARTIFACT_URL"
+          --artifact-url "$ARTIFACT_URL"
 
   build:
     name: Build (single runner)
